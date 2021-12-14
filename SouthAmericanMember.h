@@ -1,16 +1,26 @@
+// Aksel Torgerson
+// atorgerson
+
+#include <iostream>
+#include "Punches.h"
 #include <string>
 #include <vector>
 
 #ifndef SAM_HEADER
 #define SAM_HEADER
 
+using namespace std;
+
 class SouthAmericanMember {
-    public:
+    private:
         string name;
         vector<char> strategy;
         int strength, speed;
         bool sorMember;
         bool ptMember;
+    public:
+
+        SouthAmericanMember(){}
 
         SouthAmericanMember(string _name, int _strength, int _speed, vector<char> _strategy, bool _rockschool, bool _tiger) {
             name = _name;
@@ -22,7 +32,7 @@ class SouthAmericanMember {
         }
 
         bool operator<(const SouthAmericanMember& defender) {
-            if (defender.sorMember || defender.ptMember) {
+            if ((defender.sorMember && this->ptMember) || (defender.ptMember && this->sorMember)) {
                 throw Punches(this->strength, defender.strength, this->speed, defender.speed);
             }
             // s > r > p
@@ -50,7 +60,7 @@ class SouthAmericanMember {
                 }
                 if (defenderWins >= 4) {
                     return true;
-                } else if (attackerWins >= 4) {
+                } else if (thisWins >= 4) {
                     return false;
                 }
             }
@@ -63,7 +73,7 @@ class SouthAmericanMember {
             }
         }
 
-        ostream& operator<<(ostream& out, const SouthAmericanMember& member) {
+        friend ostream& operator<<(ostream& out, const SouthAmericanMember& member) {
             cout << member.name;
             if (member.ptMember) {
                 cout << " (Paper Tigers)";
@@ -73,6 +83,6 @@ class SouthAmericanMember {
             cout << endl;
         }
 
-}
+};
 
 #endif

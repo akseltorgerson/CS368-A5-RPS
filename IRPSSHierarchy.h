@@ -1,3 +1,9 @@
+// Aksel Torgerson
+// atorgerson
+
+#include <iostream>
+#include "Punches.h"
+
 #ifndef IRPS_HEADER
 #define IRPS_HEADER
 using namespace std;
@@ -16,22 +22,22 @@ class IRPSSHierarchy {
 
         void Insert(T new_member) {
             try {
-                if (new_member >= this->member) {
-                    if (left) {
-                        left->Insert(new_member);
-                    } else {
-                        left = new IRPSSHierarchy(new_member);
-                    }
-                } else {
+                if (new_member < this->member) {
                     if (right) {
                         right->Insert(new_member);
                     } else {
                         right = new IRPSSHierarchy(new_member);
                     }
+                } else {
+                    if (left) {
+                        left->Insert(new_member);
+                    } else {
+                        left = new IRPSSHierarchy(new_member);
+                    }
                 }
             } catch(Punches& punch) {
                 cout << punch.what() << endl;
-                if (e.defender <= e.challenger) {
+                if (punch.challenger > punch.defender) {
                     member = new_member;
                 }
             }
@@ -39,7 +45,7 @@ class IRPSSHierarchy {
 
         friend ostream& operator<<(ostream& out, const IRPSSHierarchy& hierarchy) {
             if (hierarchy.left) {
-                out << *(hierarchy.left)
+                out << *(hierarchy.left);
             }
             out << hierarchy.member << endl;
             if (hierarchy.right) {
@@ -47,6 +53,6 @@ class IRPSSHierarchy {
             }
             return out;
         }
-}
+};
 
 #endif
